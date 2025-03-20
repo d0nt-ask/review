@@ -1,0 +1,4 @@
+rootProject.name = 'product-project'
+include 'product'
+include 'product-event'
+
