@@ -1,0 +1,32 @@
+### GET request with a header
+GET http://localhost:8081/product
+Accept: application/json
+
+### Send POST request with json body
+GET http://localhost:8081/product/10000000
+Content-Type: application/json
+
+### Send POST request with json body
+GET http://localhost:8081/product?page=9&size=10
+Content-Type: application/json
+
+### Send POST request with json body
+GET http://localhost:8081/product?size=2&id=10000091
+Content-Type: application/json
+
+### Send POST request with json body
+POST http://localhost:8081/product
+Content-Type: application/json
+
+{
+  "images": [{
+    "fileId": "{{$uuid}}",
+    "fileName": "1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png",
+    "thumbnailUrl": "https://thumbnail6.coupangcdn.com/thumbnails/remote/48x48ex/image/retail/images/1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png",
+    "originUrl": "https://thumbnail6.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png"
+  }],
+  "quantity": 1000,
+  "price": 32680,
+  "name": "나랑드사이다 제로, 500ml, 48개",
+  "description": "원산지: 상품 상세설명 참조"
+}
