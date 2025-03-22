@@ -39,7 +39,7 @@ public class ProductImage extends RootEntity {
         this.imageInfo = imageInfo;
     }
 
-    private static ProductImage formCreateCommand(Product product, CreateProductImageCommand command) {
+    public static ProductImage formCreateCommand(Product product, CreateProductImageCommand command) {
         return builder()
                 .imageInfo(ImageInfo.builder().thumbnailUrl(command.getThumbnailUrl()).originUrl(command.getOriginUrl()).build())
                 .fileId(command.getFileId())
@@ -47,10 +47,6 @@ public class ProductImage extends RootEntity {
                 .sequence(command.getSequence())
                 .product(product)
                 .build();
-    }
-
-    public static List<ProductImage> formCreateCommands(Product product, List<CreateProductImageCommand> commands) {
-        return commands.stream().map(image -> formCreateCommand(product, image)).toList();
     }
 
     public void modifySequence(int sequence) {

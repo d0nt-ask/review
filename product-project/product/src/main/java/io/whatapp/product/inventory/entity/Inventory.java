@@ -25,12 +25,6 @@ public class Inventory {
         this.quantity = quantity;
     }
 
-
-    public void decrease(Long count) {
-//        currentQuantity = currentQuantity - count;
-    }
-
-
     public static Inventory from(Product product) {
         return Inventory.builder()
                 .productId(product.getId())
@@ -40,5 +34,14 @@ public class Inventory {
                                 .totalQuantity(product.getProductInfo().getCurrentQuantity())
                                 .build())
                 .build();
+    }
+
+
+    public void decreaseQuantity(Long quantity) {
+        this.quantity = this.quantity.decreaseCurrentQuantity(quantity);
+    }
+
+    public void increaseQuantity(Long quantity) {
+        this.quantity = this.quantity.increaseCurrentQuantity(quantity);
     }
 }

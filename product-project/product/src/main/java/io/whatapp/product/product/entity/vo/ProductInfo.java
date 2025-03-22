@@ -4,7 +4,9 @@ import io.whatapp.product.product.controller.req.CreateProductCommand;
 import io.whatapp.product.product.controller.req.UpdateProductCommand;
 import io.whatapp.product.product.entity.Product;
 import io.whatapp.product.product.entity.ProductImage;
+
 import javax.persistence.Embeddable;
+
 import lombok.*;
 
 //import javax.persistence.Column;
@@ -33,6 +35,15 @@ public class ProductInfo {
                 .description(command.getDescription())
                 .price(command.getPrice())
                 .currentQuantity(product.getProductInfo().getCurrentQuantity())
+                .build();
+    }
+
+    public ProductInfo syncQuantity(Long currentQuantity) {
+        return builder()
+                .name(this.name)
+                .description(this.description)
+                .price(this.price)
+                .currentQuantity(currentQuantity)
                 .build();
     }
 }

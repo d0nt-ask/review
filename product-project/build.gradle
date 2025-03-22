@@ -28,6 +28,9 @@ subprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        maven {
+            url uri("${project.getRootDir()}/libs")
+        }
     }
 
     configurations {

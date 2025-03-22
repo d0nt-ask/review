@@ -15,6 +15,17 @@ spring:
   sql:
     init:
       mode: always
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: ${spring.application.name}
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+      auto-offset-reset: earliest
 
 server:
   port: 8081

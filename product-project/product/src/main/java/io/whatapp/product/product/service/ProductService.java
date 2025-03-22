@@ -1,5 +1,6 @@
 package io.whatapp.product.product.service;
 
+import io.whatapp.product.inventory.entity.Inventory;
 import io.whatapp.product.product.controller.req.CreateProductCommand;
 import io.whatapp.product.product.controller.req.CreateProductImageCommand;
 import io.whatapp.product.product.controller.req.UpdateProductCommand;
@@ -89,6 +90,11 @@ public class ProductService {
         }
     }
 
+    public void syncProductCurrentQuantity(Inventory inventory) {
+        Optional<Product> productOptional = productRepository.findById(inventory.getProductId());
+        productOptional.ifPresent(product -> product.syncProductQuantity(inventory.getQuantity().getCurrentQuantity()));
+    }
+
 
     private void modifyProductImages(Product product, List<UpdateProductImageCommand> commands) {
         Map<UUID, ProductImage> productImageMap = product.getProductImages().stream().collect(Collectors.toMap(ProductImage::getId, Function.identity()));
@@ -97,9 +103,9 @@ public class ProductService {
         }
     }
 
-    private void addProductImages(Product product, List<CreateProductImageCommand> command) {
-        if (!CollectionUtils.isEmpty(command)) {
-            List<ProductImage> productImages = ProductImage.formCreateCommands(product, command);
+    private void addProductImages(Product product, List<CreateProductImageCommand> commands) {
+        if (!CollectionUtils.isEmpty(commands)) {
+            List<ProductImage> productImages = commands.stream().map(command -> ProductImage.formCreateCommand(product, command)).toList();
             productImages.forEach(product::addProductImage);
             productRepository.save(product);
         }

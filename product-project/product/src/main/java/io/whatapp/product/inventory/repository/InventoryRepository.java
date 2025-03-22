@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    Optional<Inventory> findWithLockById(Long id);
+    Optional<Inventory> findWithLockByProductId(Long productId);
 
     Optional<Inventory> findByProductId(Long productId);
 }

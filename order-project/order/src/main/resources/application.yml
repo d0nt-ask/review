@@ -6,5 +6,18 @@ spring:
     username: order
     password: order
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+  sql:
+    init:
+      mode: always
+
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 server:
   port: 8080
+
+proxy:
+  product: http://localhost:8081

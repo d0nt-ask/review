@@ -2,17 +2,13 @@ package io.whatapp.product.product.entity;
 
 import io.whatapp.product.product.controller.req.CreateProductCommand;
 import io.whatapp.product.product.entity.vo.ProductInfo;
-
-import javax.persistence.*;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -61,5 +57,9 @@ public class Product extends RootEntity {
 
     public void remove() {
         this.productImages.clear();
+    }
+
+    public void syncProductQuantity(Long currentQuantity) {
+        this.productInfo = productInfo.syncQuantity(currentQuantity);
     }
 }
