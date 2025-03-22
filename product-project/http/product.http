@@ -59,3 +59,8 @@ Content-Type: application/json
     "ff09b2e4-b3a4-412c-b6b3-4a0133029b6a"
   ]
 }
+
+### Send POST request with json body
+DELETE http://localhost:8081/product/10000100
+Content-Type: application/json
+

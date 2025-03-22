@@ -2,7 +2,9 @@ package io.whatapp.product.product.entity;
 
 import io.whatapp.product.product.controller.req.CreateProductCommand;
 import io.whatapp.product.product.entity.vo.ProductInfo;
+
 import javax.persistence.*;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,15 +48,6 @@ public class Product extends RootEntity {
         this.productInfo = productInfo;
     }
 
-    private void deleteProductImages(List<UUID> deletedProductImages) {
-        if (!CollectionUtils.isEmpty(deletedProductImages)) {
-            List<ProductImage> imagesToDelete = this.productImages.stream()
-                    .filter(image -> deletedProductImages.contains(image.getId()))
-                    .toList();
-            this.productImages.removeAll(imagesToDelete);
-        }
-    }
-
     public void modifyProductImage(ProductImage productImage, int sequence) {
         int i = this.productImages.indexOf(productImage);
         if (i >= 0) {
@@ -64,5 +57,9 @@ public class Product extends RootEntity {
 
     public void removeProductImage(ProductImage productImage) {
         this.productImages.remove(productImage);
+    }
+
+    public void remove() {
+        this.productImages.clear();
     }
 }

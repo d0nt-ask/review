@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/product")
 public class ProductController {
-    private final ProductRepository productRepository;
-    private final InventoryRepository inventoryRepository;
     private final ProductService productService;
 
     //GET  getProduct
@@ -43,4 +41,10 @@ public class ProductController {
     public Long updateProduct(@PathVariable Long id, @RequestBody UpdateProductCommand command) {
         return productService.updateProduct(id, command);
     }
+
+    @DeleteMapping("/{id}")
+    public Long deleteProduct(@PathVariable Long id) {
+        return productService.deleteProduct(id);
+    }
+
 }

@@ -9,8 +9,11 @@ import io.whatapp.product.product.entity.Product;
 import io.whatapp.product.product.entity.ProductImage;
 import io.whatapp.product.product.entity.vo.ProductInfo;
 import io.whatapp.product.product.event.CreatedProductEvent;
+import io.whatapp.product.product.event.DeletedProductEvent;
 import io.whatapp.product.product.repository.ProductRepository;
+
 import javax.persistence.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.*;
@@ -71,6 +74,21 @@ public class ProductService {
             return product.getId();
         }
     }
+
+    public Long deleteProduct(Long id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new EntityNotFoundException("Product not found");
+        } else {
+            Product product = optionalProduct.get();
+            product.remove();
+            productRepository.delete(product);
+
+            eventPublisher.publishEvent(DeletedProductEvent.from(product));
+            return product.getId();
+        }
+    }
+
 
     private void modifyProductImages(Product product, List<UpdateProductImageCommand> commands) {
         Map<UUID, ProductImage> productImageMap = product.getProductImages().stream().collect(Collectors.toMap(ProductImage::getId, Function.identity()));

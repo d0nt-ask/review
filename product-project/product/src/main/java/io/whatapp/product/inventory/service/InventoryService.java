@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -17,5 +19,11 @@ public class InventoryService {
         Inventory inventory = Inventory.from(product);
         inventoryRepository.save(inventory);
         return inventory.getId();
+    }
+
+    public Long deleteInventoryFromProduct(Long productId) {
+        Optional<Inventory> inventoryOptional = inventoryRepository.findByProductId(productId);
+        inventoryOptional.ifPresent(inventoryRepository::delete);
+        return productId;
     }
 }
