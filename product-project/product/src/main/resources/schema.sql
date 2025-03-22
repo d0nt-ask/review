@@ -25,9 +25,10 @@ create table product_image
     modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP not null,
     modified_id   varchar(255),
     product_id    bigint,
-    file_id       binary(255),
+    file_id       binary(16),
     file_name     varchar(255),
-    origin_url  varchar(255),
+    sequence      int,
+    origin_url    varchar(255),
     thumbnail_url varchar(255),
     primary key (id)
 ) engine=InnoDB;

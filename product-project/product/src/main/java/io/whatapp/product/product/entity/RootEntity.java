@@ -1,11 +1,11 @@
 package io.whatapp.product.product.entity;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
 import java.time.Instant;
 
 @MappedSuperclass

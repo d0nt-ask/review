@@ -35,20 +35,24 @@ public class DataInit {
             Product product1 = Product.builder()
                     .productInfo(ProductInfo.builder().name("맥심 모카골드 제로슈거 커피믹스").description("원산지: 상품 상세설명 참조").price(12900L).currentQuantity(10000L).build())
                     .build();
-            product1.addProductImage(
-                    List.of(
-                            ProductImage.builder()
-                                    .fileId(UUID.randomUUID())
-                                    .fileName("no_img_1000_1000.png")
-                                    .imageInfo(new ImageInfo("https://thumbnail7.coupangcdn.com/thumbnails/remot…40193401-d3467179-fcc6-4b1a-82c5-efe0e367df60.jpg", "https://thumbnail7.coupangcdn.com/thumbnails/remot…40193401-d3467179-fcc6-4b1a-82c5-efe0e367df60.jpg"))
-                                    .build(),
-                            ProductImage.builder()
-                                    .fileId(UUID.randomUUID())
-                                    .fileName("no_img_1000_1000.png")
-                                    .imageInfo(new ImageInfo("https://thumbnail7.coupangcdn.com/thumbnails/remot…40193401-d3467179-fcc6-4b1a-82c5-efe0e367df60.jpg", "https://thumbnail7.coupangcdn.com/thumbnails/remot…40193401-d3467179-fcc6-4b1a-82c5-efe0e367df60.jpg"))
-                                    .build()
+            List.of(
+                    ProductImage.builder()
+                            .product(product1)
+                            .fileId(UUID.randomUUID())
+                            .fileName("no_img_1000_1000.png")
+                            .sequence(0)
+                            .imageInfo(ImageInfo.builder().thumbnailUrl("https://thumbnail7.coupangcdn.com/thumbnails/remot…40193401-d3467179-fcc6-4b1a-82c5-efe0e367df60.jpg").originUrl("https://thumbnail7.coupangcdn.com/thumbnails/remot…40193401-d3467179-fcc6-4b1a-82c5-efe0e367df60.jpg").build())
+                            .build(),
+                    ProductImage.builder()
+                            .product(product1)
+                            .fileId(UUID.randomUUID())
+                            .fileName("no_img_1000_1000.png")
+                            .sequence(1)
+                            .imageInfo(ImageInfo.builder().thumbnailUrl("https://thumbnail7.coupangcdn.com/thumbnails/remot…40193401-d3467179-fcc6-4b1a-82c5-efe0e367df60.jpg").originUrl("https://thumbnail7.coupangcdn.com/thumbnails/remot…40193401-d3467179-fcc6-4b1a-82c5-efe0e367df60.jpg").build())
+                            .build()
 
-                    ));
+            ).forEach(product1::addProductImage);
+
             productRepository.save(product1);
             inventoryRepository.save(Inventory.builder().quantity(Quantity.builder().currentQuantity(1000L).totalQuantity(1000L).build()).productId(product1.getId()).build())
             ;

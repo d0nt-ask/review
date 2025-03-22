@@ -22,6 +22,7 @@ Content-Type: application/json
   "images": [{
     "fileId": "{{$uuid}}",
     "fileName": "1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png",
+    "sequence": 0,
     "thumbnailUrl": "https://thumbnail6.coupangcdn.com/thumbnails/remote/48x48ex/image/retail/images/1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png",
     "originUrl": "https://thumbnail6.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png"
   }],
@@ -29,4 +30,32 @@ Content-Type: application/json
   "price": 32680,
   "name": "나랑드사이다 제로, 500ml, 48개",
   "description": "원산지: 상품 상세설명 참조"
+}
+
+### Send POST request with json body
+PUT http://localhost:8081/product/9999999
+Content-Type: application/json
+
+{
+  "name": "나랑드사이다 제로, 500ml, 24개",
+  "description": "원산지: 상품 상세설명 참조",
+  "price": 34000,
+  "createdProductImages": [
+    {
+      "fileId": "{{$uuid}}",
+      "fileName": "1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png",
+      "sequence": 0,
+      "thumbnailUrl": "https://thumbnail6.coupangcdn.com/thumbnails/remote/48x48ex/image/retail/images/1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png",
+      "originUrl": "https://thumbnail6.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/1794b791-edb8-43e1-bd25-a495d350a4a41074190155312595231.png"
+    }
+  ],
+  "updatedProductImages": [
+    {
+      "productImageId": "ff09b2e4-b3a4-412c-b6b3-4a0133029b6b",
+      "sequence": 999
+    }
+  ],
+  "deletedProductImages": [
+    "ff09b2e4-b3a4-412c-b6b3-4a0133029b6a"
+  ]
 }

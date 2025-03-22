@@ -2,10 +2,10 @@ package io.whatapp.product.inventory.entity;
 
 import io.whatapp.product.inventory.entity.vo.Quantity;
 import io.whatapp.product.product.entity.Product;
+import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.util.UUID;
 
 @Entity

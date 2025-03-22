@@ -1,16 +1,18 @@
 package io.whatapp.product.product.entity.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.Embeddable;
+import lombok.*;
 
 @Embeddable
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageInfo {
-    private String thumbnailUrl;
-    private String originUrl;
+    private final String thumbnailUrl;
+    private final String originUrl;
+
+    protected ImageInfo() {
+        thumbnailUrl = null;
+        originUrl = null;
+    }
 }

@@ -1,14 +1,12 @@
 package io.whatapp.product.product.entity;
 
-import io.whatapp.product.product.controller.req.CreateProductCommand;
+import io.whatapp.product.product.controller.req.CreateProductImageCommand;
+import io.whatapp.product.product.controller.req.UpdateProductImageCommand;
 import io.whatapp.product.product.entity.vo.ImageInfo;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,32 +22,38 @@ public class ProductImage extends RootEntity {
     private UUID id;
     private UUID fileId;
     private String fileName;
+    private int sequence;
     @Embedded
     private ImageInfo imageInfo;
 
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
     @Builder
-    private ProductImage(Product product, UUID fileId, String fileName, ImageInfo imageInfo) {
+    private ProductImage(Product product, UUID fileId, String fileName, int sequence, ImageInfo imageInfo) {
         this.product = product;
         this.fileId = fileId;
         this.fileName = fileName;
+        this.sequence = sequence;
         this.imageInfo = imageInfo;
     }
 
-    private static ProductImage from(Product product, CreateProductCommand.CreateProductImageCommand image) {
+    private static ProductImage formCreateCommand(Product product, CreateProductImageCommand command) {
         return builder()
-                .imageInfo(new ImageInfo(image.getThumbnailUrl(), image.getOriginUrl()))
-                .fileId(image.getFileId())
-                .fileName(image.getFileName())
+                .imageInfo(ImageInfo.builder().thumbnailUrl(command.getThumbnailUrl()).originUrl(command.getOriginUrl()).build())
+                .fileId(command.getFileId())
+                .fileName(command.getFileName())
+                .sequence(command.getSequence())
                 .product(product)
                 .build();
     }
 
-    public static List<ProductImage> from(Product product, List<CreateProductCommand.CreateProductImageCommand> images) {
-        return images.stream().map(image -> from(product, image)).toList();
+    public static List<ProductImage> formCreateCommands(Product product, List<CreateProductImageCommand> commands) {
+        return commands.stream().map(image -> formCreateCommand(product, image)).toList();
+    }
+
+    public void modifySequence(int sequence) {
+        this.sequence = sequence;
     }
 }
