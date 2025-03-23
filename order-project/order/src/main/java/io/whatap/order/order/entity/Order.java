@@ -21,7 +21,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
-    private String userId;
+    private String userId = "anonymous";
     @Embedded
     private OrderInfo orderInfo;
     @Embedded

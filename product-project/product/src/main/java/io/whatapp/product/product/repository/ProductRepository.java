@@ -10,6 +10,5 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByProductInfoCurrentQuantity(Long currentQuantity);
     Slice<Product> findByIdGreaterThan(Long id, Pageable pageable);
 }

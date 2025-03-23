@@ -5,14 +5,15 @@ create table `order`
     user_id                 varchar(255),
     status                  varchar(255),
     total_price             bigint,
-    order_start_date_time   datetime(6),
+    order_created_date_time   datetime(6),
+    ordered_date_time   datetime(6),
     road_addr               varchar(1000),
     jibun_addr              varchar(1000),
     detail_addr            varchar(1000),
     primary key (id)
 ) engine=InnoDB;
 
-alter table `order` auto_increment = 10000000;
+alter table `order` auto_increment = 20000000;
 
 drop table if exists order_product;
 create table order_product
@@ -20,10 +21,11 @@ create table order_product
     id               bigint auto_increment,
     order_id         bigint,
     product_Id       varchar(255),
+    product_name     varchar(255),
     quantity         int,
     price            bigint,
     total_price      bigint,
     primary key (id)
 ) engine=InnoDB;
 
-alter table order_product auto_increment = 10000000;
+alter table order_product auto_increment = 20000000;

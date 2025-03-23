@@ -2,19 +2,22 @@ package io.whatap.order.order.controller.res;
 
 import io.whatap.order.order.entity.Order;
 import io.whatap.order.order.entity.enumeration.OrderStatus;
+import io.whatap.order.order.entity.vo.Address;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 @Getter
 public class OrderDetailDto {
     private Long orderId;
     private OrderStatus status;
-    private long totalPrice;
-    private LocalDateTime orderStartDateTime;
+    private Long totalPrice;
+    private LocalDateTime orderCreatedDateTime;
+    private LocalDateTime orderDateTime;
     private String roadAddr;
     private String jibunAddr;
     private String detailAddr;
@@ -26,10 +29,10 @@ public class OrderDetailDto {
                 .orderId(order.getId())
                 .status(order.getOrderInfo().getStatus())
                 .totalPrice(order.getOrderInfo().getTotalPrice())
-                .orderStartDateTime(order.getOrderInfo().getOrderStartDateTime())
-                .roadAddr(order.getAddress().getRoadAddr())
-                .jibunAddr(order.getAddress().getJibunAddr())
-                .detailAddr(order.getAddress().getDetailAddr())
+                .orderCreatedDateTime(order.getOrderInfo().getOrderCreatedDateTime())
+                .roadAddr(Optional.ofNullable(order.getAddress()).map(Address::getRoadAddr).orElse(null))
+                .jibunAddr(Optional.ofNullable(order.getAddress()).map(Address::getJibunAddr).orElse(null))
+                .detailAddr(Optional.ofNullable(order.getAddress()).map(Address::getDetailAddr).orElse(null))
                 .orderProducts(order.getOrderProducts().stream().map(OrderProductDetailDto::from).toList())
                 .build();
     }

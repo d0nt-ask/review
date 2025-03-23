@@ -14,7 +14,7 @@ create table product
     primary key (id)
 ) engine=InnoDB;
 
-alter table product auto_increment = 10000000;
+alter table product auto_increment = 20000000;
 
 drop table if exists product_image;
 create table product_image
@@ -47,4 +47,4 @@ create table inventory
     primary key (id)
 ) engine=InnoDB;
 
-alter table inventory auto_increment = 10000000;
+alter table inventory auto_increment = 20000000;

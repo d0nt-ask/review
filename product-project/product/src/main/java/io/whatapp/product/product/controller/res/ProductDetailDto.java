@@ -3,6 +3,7 @@ package io.whatapp.product.product.controller.res;
 import io.whatapp.product.product.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ProductDetailDto {
                 .price(product.getProductInfo().getPrice())
                 .quantity(product.getProductInfo().getCurrentQuantity())
                 .images(
-                        product.getProductImages() == null
+                        CollectionUtils.isEmpty(product.getProductImages())
                                 ? Collections.EMPTY_LIST
                                 : product.getProductImages().stream().map(ProductImageDetailDto::from).toList())
                 .build();

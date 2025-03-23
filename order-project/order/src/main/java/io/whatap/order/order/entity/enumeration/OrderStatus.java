@@ -1,5 +1,12 @@
 package io.whatap.order.order.entity.enumeration;
 
 public enum OrderStatus {
-    Creation,
+    CREATED,
+    PAID,
+    PREPARING,
+    SHIPPED,
+    DELIVERED,
+    CANCELLED,
+    CANCEL_REQUESTED
+
 }

@@ -32,3 +32,15 @@ Content-Type: application/json
 ### Send POST request with json body
 GET http://localhost:8080/order/{{id}}
 Content-Type: application/json
+
+### Send POST request with json body
+GET http://localhost:8080/order/10000002
+Content-Type: application/json
+
+### Send POST request with json body
+GET http://localhost:8080/order?id=10000001&size=3
+Content-Type: application/json
+
+### Send POST request with json body
+GET http://localhost:8080/order?size=3&page=4
+Content-Type: application/json

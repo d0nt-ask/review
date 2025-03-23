@@ -19,23 +19,24 @@ public class OrderInfo {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     private long totalPrice;
-    private LocalDateTime orderStartDateTime;
+    private LocalDateTime orderCreatedDateTime;
+    private LocalDateTime orderedDateTime;
 
     protected OrderInfo() {
         this.status = null;
         this.totalPrice = 0;
-        this.orderStartDateTime = LocalDateTime.now();
+        this.orderCreatedDateTime = LocalDateTime.now();
     }
 
     public static OrderInfo init() {
-        return builder().status(OrderStatus.Creation).totalPrice(0).orderStartDateTime(LocalDateTime.now()).build();
+        return builder().status(OrderStatus.CREATED).totalPrice(0).orderCreatedDateTime(LocalDateTime.now()).build();
     }
 
     public OrderInfo modifyTotalPrice(long totalPrice) {
         return OrderInfo.builder()
                 .status(this.status)
                 .totalPrice(totalPrice)
-                .orderStartDateTime(this.orderStartDateTime)
+                .orderCreatedDateTime(this.orderCreatedDateTime)
                 .build();
     }
 }

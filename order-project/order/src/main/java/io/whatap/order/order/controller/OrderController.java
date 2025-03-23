@@ -2,8 +2,11 @@ package io.whatap.order.order.controller;
 
 import io.whatap.order.order.controller.req.OrderProductCommand;
 import io.whatap.order.order.controller.res.OrderDetailDto;
+import io.whatap.order.order.controller.res.OrderSummaryDto;
 import io.whatap.order.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +23,11 @@ public class OrderController {
     @GetMapping("/{id}")
     public OrderDetailDto getOrder(@PathVariable Long id) {
         return orderService.getOrder(id);
+    }
+
+    @GetMapping
+    public Slice<OrderSummaryDto> getOrders(@RequestParam(required = false) Long id, Pageable pageable) {
+        return orderService.getOrders(id, pageable);
     }
 
     @PostMapping

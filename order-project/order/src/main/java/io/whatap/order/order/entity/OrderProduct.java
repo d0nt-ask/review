@@ -18,6 +18,7 @@ public class OrderProduct {
     @Column
     private Long id;
     private Long productId;
+    private String productName;
     @Embedded
     private OrderProductInfo orderProductInfo;
 
@@ -26,8 +27,9 @@ public class OrderProduct {
     private Order order;
 
     @Builder
-    private OrderProduct(Long productId, OrderProductInfo orderProductInfo, Order order) {
+    private OrderProduct(Long productId, String productName, OrderProductInfo orderProductInfo, Order order) {
         this.productId = productId;
+        this.productName = productName;
         this.orderProductInfo = orderProductInfo;
         this.order = order;
     }
@@ -36,6 +38,7 @@ public class OrderProduct {
         return builder()
                 .order(order)
                 .productId(productDto.getId())
+                .productName(productDto.getName())
                 .orderProductInfo(OrderProductInfo.builder()
                         .price(productDto.getPrice())
                         .quantity(command.getQuantity())

@@ -10,7 +10,7 @@
 ### Order
 - [ ] Order 기본 설계 - 보완 필요
 - [ ] API - getOrders - 진행중
-- [x] API - getOrder - 진행중
+- [x] API - getOrder
 - [x] API - orderProduct - 동시성 처리
 - [ ] API - changeOrder
 - [ ] API - deleteOrder

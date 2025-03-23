@@ -4,8 +4,10 @@ import io.whatap.order.event.FailedOrderCreationEvent;
 import io.whatap.order.order.controller.req.OrderProductCommand;
 import io.whatap.order.order.controller.req.CreateOrderProductCommand;
 import io.whatap.order.order.controller.res.OrderDetailDto;
+import io.whatap.order.order.controller.res.OrderSummaryDto;
 import io.whatap.order.order.entity.Order;
 import io.whatap.order.order.entity.OrderProduct;
+import io.whatap.order.order.entity.enumeration.OrderStatus;
 import io.whatap.order.order.event.CreatedOrderEvent;
 import io.whatap.order.order.proxy.ProductProxy;
 import io.whatap.order.order.proxy.req.DecreaseInventoryQuantityRequest;
@@ -14,6 +16,7 @@ import io.whatap.order.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.*;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,5 +69,15 @@ public class OrderService {
     public OrderDetailDto getOrder(Long id) {
         return orderRepository.findById(id).map(OrderDetailDto::from).orElseThrow(() -> new EntityNotFoundException("Order not found"));
 
+    }
+
+    public Slice<OrderSummaryDto> getOrders(Long id, Pageable pageable) {
+        if (id == null) {
+            Page<Order> products = orderRepository.findByUserIdAndOrderInfoStatusNot("anonymous", OrderStatus.CREATED, pageable);
+            return new PageImpl<>(products.getContent().stream().map(OrderSummaryDto::from).toList(), products.getPageable(), products.getTotalElements());
+        } else {
+            Slice<Order> products = orderRepository.findByIdGreaterThanAndUserIdAndOrderInfoStatusNot(id, "anonymous", OrderStatus.CREATED, pageable);
+            return new SliceImpl<>(products.getContent().stream().map(OrderSummaryDto::from).toList(), products.getPageable(), products.hasNext());
+        }
     }
 }
