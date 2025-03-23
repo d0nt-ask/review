@@ -1,3 +1,27 @@
+## CheckList
+### Product 
+- [x] Product 기본 설계
+- [x] API - getProduct
+- [x] API - getProductsByPagination
+- [x] API - addProduct
+- [x] API - updateProduct
+- [x] API - deleteProduct
+---
+### Order
+- [ ] Order 기본 설계 - 보완 필요
+- [ ] API - getOrders - 진행중
+- [x] API - getOrder - 진행중
+- [x] API - orderProduct - 동시성 처리
+- [ ] API - changeOrder
+- [ ] API - deleteOrder
+---
+### 공통
+- [ ] 입력 검증
+- [ ] 예외 처리
+- [ ] 설정 분리
+
+
+## DB
 ```sql
 CREATE USER 'product'@'%' IDENTIFIED BY 'product';
 GRANT Alter ON product.* TO 'product'@'%';
