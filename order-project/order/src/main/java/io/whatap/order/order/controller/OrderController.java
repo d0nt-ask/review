@@ -1,5 +1,6 @@
 package io.whatap.order.order.controller;
 
+import io.whatap.order.order.controller.req.ChangeOrderCommand;
 import io.whatap.order.order.controller.req.OrderProductCommand;
 import io.whatap.order.order.controller.res.OrderDetailDto;
 import io.whatap.order.order.controller.res.OrderSummaryDto;
@@ -33,5 +34,15 @@ public class OrderController {
     @PostMapping
     public Long orderProduct(@RequestBody OrderProductCommand command) {
         return orderService.orderProduct(command);
+    }
+
+    @PutMapping("/{id}")
+    public Long changeOrder(@PathVariable Long id, @RequestBody ChangeOrderCommand command) {
+        return orderService.changeOrder(id, command);
+    }
+
+    @DeleteMapping("/{id}")
+    public Long deleteOrder(@PathVariable Long id) {
+        return orderService.deleteOrder(id);
     }
 }

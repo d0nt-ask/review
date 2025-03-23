@@ -1,5 +1,6 @@
 package io.whatapp.product.inventory.listener.kafka;
 
+import io.whatap.order.event.DeletedOrderEvent;
 import io.whatap.order.event.FailedOrderCreationEvent;
 import io.whatapp.product.inventory.service.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,12 @@ public class OrderEventListener {
     }
 
     @EventListener
-    public void onFailedOrderCreation(FailedOrderCreationEvent event) {
+    public void handle(FailedOrderCreationEvent event) {
+        inventoryService.increaseInventoryQuantities(event.getOrderProducts());
+    }
+
+    @EventListener
+    public void handle(DeletedOrderEvent event) {
         inventoryService.increaseInventoryQuantities(event.getOrderProducts());
     }
 }

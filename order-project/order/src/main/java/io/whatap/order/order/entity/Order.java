@@ -28,7 +28,7 @@ public class Order {
     private Address address;
 
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private final List<OrderProduct> orderProducts = new ArrayList<>();
 
     @Builder
@@ -43,7 +43,7 @@ public class Order {
                 .address(Address.builder()
                         .roadAddr(command.getRoadAddr())
                         .jibunAddr(command.getJibunAddr())
-                        .detailAddr(command.getDetailAddress())
+                        .detailAddr(command.getDetailAddr())
                         .build())
                 .build();
     }
@@ -51,5 +51,21 @@ public class Order {
     public void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
         this.orderInfo = orderInfo.modifyTotalPrice(this.orderProducts.stream().mapToLong(value -> value.getOrderProductInfo().getTotalPrice()).sum());
+    }
+
+    public void modifyOrder(Address address) {
+        if (this.orderInfo.getStatus().isEditable()) {
+            this.address = address;
+        } else {
+            throw new IllegalStateException("수정 불가능한 주문 상태 입니다.");
+        }
+    }
+
+    public void remove() {
+        if (this.orderInfo.getStatus().isDeletable()) {
+            this.orderProducts.clear();
+        } else {
+            throw new IllegalStateException("삭제 불가능한 주문 상태 입니다.");
+        }
     }
 }

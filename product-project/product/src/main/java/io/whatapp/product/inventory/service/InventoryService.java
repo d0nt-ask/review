@@ -1,6 +1,6 @@
 package io.whatapp.product.inventory.service;
 
-import io.whatap.order.event.FailedOrderCreationEvent;
+import io.whatap.order.event.dto.OrderProductDto;
 import io.whatapp.product.inventory.controller.req.DecreaseInventoryCommand;
 import io.whatapp.product.inventory.entity.Inventory;
 import io.whatapp.product.inventory.event.DecreasedInventoryQuantityEvent;
@@ -43,11 +43,10 @@ public class InventoryService {
         return ids;
     }
 
-    public void increaseInventoryQuantities(List<FailedOrderCreationEvent.OrderProductDto> orderProducts) {
-        for (FailedOrderCreationEvent.OrderProductDto orderProduct : orderProducts) {
+    public void increaseInventoryQuantities(List<OrderProductDto> orderProducts) {
+        for (OrderProductDto orderProduct : orderProducts) {
             increaseInventoryQuantity(orderProduct);
         }
-
     }
 
     private Long decreaseInventoryQuantity(DecreaseInventoryCommand command) {
@@ -59,7 +58,7 @@ public class InventoryService {
         return inventory.getId();
     }
 
-    private void increaseInventoryQuantity(FailedOrderCreationEvent.OrderProductDto orderProduct) {
+    private void increaseInventoryQuantity(OrderProductDto orderProduct) {
         Optional<Inventory> inventoryOptional = inventoryRepository.findWithLockByProductId(orderProduct.getProductId());
         Inventory inventory = inventoryOptional.orElseThrow(() -> new EntityNotFoundException("Inventory not found"));
         inventory.increaseQuantity(orderProduct.getQuantity());

@@ -3,25 +3,25 @@
   <groupId>io.whatap</groupId>
   <artifactId>order-event</artifactId>
   <versioning>
-    <lastUpdated>20250322185350</lastUpdated>
+    <lastUpdated>20250323150344</lastUpdated>
     <snapshot>
       <localCopy>true</localCopy>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
-        <extension>jar</extension>
+        <extension>module</extension>
         <value>0.0.1-SNAPSHOT</value>
-        <updated>20250322185350</updated>
+        <updated>20250323150344</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
         <value>0.0.1-SNAPSHOT</value>
-        <updated>20250322185350</updated>
+        <updated>20250323150344</updated>
       </snapshotVersion>
       <snapshotVersion>
-        <extension>module</extension>
+        <extension>jar</extension>
         <value>0.0.1-SNAPSHOT</value>
-        <updated>20250322185350</updated>
+        <updated>20250323150344</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

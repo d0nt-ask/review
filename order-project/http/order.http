@@ -9,7 +9,7 @@ Content-Type: application/json
   "products": [
     {
       "productId": 9999999,
-      "quantity": 100
+      "quantity": 12
     },
     {
       "productId": 9999998,
@@ -44,3 +44,35 @@ Content-Type: application/json
 ### Send POST request with json body
 GET http://localhost:8080/order?size=3&page=4
 Content-Type: application/json
+
+
+### Send POST request with json body
+PUT http://localhost:8080/order/10000002
+Content-Type: application/json
+
+{
+  "roadAddr": "서울특별시 서초구 서초대로77길 17 (서초동)",
+  "jibunAddr": "서울특별시 서초구 서초동 1307-21 BLOCK77",
+  "detailAddr": "13층 1303호"
+}
+
+### Send POST request with json body
+PUT http://localhost:8080/order/10000004
+Content-Type: application/json
+
+{
+  "roadAddr": "서울특별시 서초구 서초대로77길 17 (서초동)",
+  "jibunAddr": "서울특별시 서초구 서초동 1307-21 BLOCK77",
+  "detailAddr": "13층 1303호"
+}
+
+
+### Send POST request with json body
+DELETE http://localhost:8080/order/20000000
+Content-Type: application/json
+
+{
+  "roadAddr": "서울특별시 서초구 서초대로77길 17 (서초동)",
+  "jibunAddr": "서울특별시 서초구 서초동 1307-21 BLOCK77",
+  "detailAddr": "13층 1303호"
+}

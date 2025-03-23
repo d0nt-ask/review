@@ -11,7 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FailedOrderCreationEvent {
+public class DeletedOrderEvent {
 
     private List<OrderProductDto> orderProducts;
+
 }
