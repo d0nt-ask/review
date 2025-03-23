@@ -22,6 +22,6 @@ public class OrderListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
     public void handle(CreatedOrderEvent event) {
         kafkaTemplate.send(applicationName, FailedOrderCreationEvent.builder()
-                .orderProducts(event.getOrder().getOrderProducts().stream().map(orderProduct -> new FailedOrderCreationEvent.OrderProductDto(orderProduct.getProductId(), orderProduct.getQuantity())).toList()).build());
+                .orderProducts(event.getOrder().getOrderProducts().stream().map(orderProduct -> new FailedOrderCreationEvent.OrderProductDto(orderProduct.getProductId(), orderProduct.getOrderProductInfo().getQuantity())).toList()).build());
     }
 }

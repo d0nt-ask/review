@@ -2,7 +2,7 @@ spring:
   application:
     name: order
   datasource:
-    url: jdbc:mysql://localhost:3306/order
+    url: jdbc:mysql://localhost:3306/order?sendFractionalSeconds=false
     username: order
     password: order
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -1,8 +1,14 @@
 drop table if exists `order`;
 create table `order`
 (
-    id               bigint auto_increment,
-    status     varchar(255),
+    id                      bigint auto_increment,
+    user_id                 varchar(255),
+    status                  varchar(255),
+    total_price             bigint,
+    order_start_date_time   datetime(6),
+    road_addr               varchar(1000),
+    jibun_addr              varchar(1000),
+    detail_addr            varchar(1000),
     primary key (id)
 ) engine=InnoDB;
 
@@ -13,9 +19,10 @@ create table order_product
 (
     id               bigint auto_increment,
     order_id         bigint,
-    product_Id        varchar(255),
+    product_Id       varchar(255),
     quantity         int,
-    total_price       bigint,
+    price            bigint,
+    total_price      bigint,
     primary key (id)
 ) engine=InnoDB;
 

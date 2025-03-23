@@ -1,6 +1,7 @@
 package io.whatap.order.order.entity;
 
 import io.whatap.order.order.controller.req.CreateOrderProductCommand;
+import io.whatap.order.order.entity.vo.OrderProductInfo;
 import io.whatap.order.order.proxy.res.ProductDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,18 +18,17 @@ public class OrderProduct {
     @Column
     private Long id;
     private Long productId;
-    private long quantity;
-    private long totalPrice;
+    @Embedded
+    private OrderProductInfo orderProductInfo;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
     @Builder
-    private OrderProduct(Long productId, long quantity, long totalPrice, Order order) {
+    private OrderProduct(Long productId, OrderProductInfo orderProductInfo, Order order) {
         this.productId = productId;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
+        this.orderProductInfo = orderProductInfo;
         this.order = order;
     }
 
@@ -36,8 +36,11 @@ public class OrderProduct {
         return builder()
                 .order(order)
                 .productId(productDto.getId())
-                .quantity(command.getQuantity())
-                .totalPrice(productDto.getPrice() * command.getQuantity())
+                .orderProductInfo(OrderProductInfo.builder()
+                        .price(productDto.getPrice())
+                        .quantity(command.getQuantity())
+                        .totalPrice(productDto.getPrice() * command.getQuantity())
+                        .build())
                 .build();
     }
 }

@@ -9,15 +9,15 @@ import java.util.List;
 
 @Builder
 @Getter
-public class ProductDto {
+public class ProductDetailDto {
     private Long id;
     private String name;
     private String description;
     private Long price;
     private Long quantity;
-    private List<ProductImageDto> images;
+    private List<ProductImageDetailDto> images;
 
-    public static ProductDto from(Product product) {
+    public static ProductDetailDto from(Product product) {
         return builder()
                 .id(product.getId())
                 .name(product.getProductInfo().getName())
@@ -27,11 +27,7 @@ public class ProductDto {
                 .images(
                         product.getProductImages() == null
                                 ? Collections.EMPTY_LIST
-                                : product.getProductImages().stream().map(ProductImageDto::from).toList())
+                                : product.getProductImages().stream().map(ProductImageDetailDto::from).toList())
                 .build();
-    }
-
-    public static List<ProductDto> fromProducts(List<Product> products) {
-        return products.stream().map(ProductDto::from).toList();
     }
 }

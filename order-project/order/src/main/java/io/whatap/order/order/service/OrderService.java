@@ -1,8 +1,9 @@
 package io.whatap.order.order.service;
 
 import io.whatap.order.event.FailedOrderCreationEvent;
-import io.whatap.order.order.controller.req.CreateOrderCommand;
+import io.whatap.order.order.controller.req.OrderProductCommand;
 import io.whatap.order.order.controller.req.CreateOrderProductCommand;
+import io.whatap.order.order.controller.res.OrderDetailDto;
 import io.whatap.order.order.entity.Order;
 import io.whatap.order.order.entity.OrderProduct;
 import io.whatap.order.order.event.CreatedOrderEvent;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +34,7 @@ public class OrderService {
     private final ApplicationEventPublisher eventPublisher;
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public Long createOrder(CreateOrderCommand command) {
+    public Long orderProduct(OrderProductCommand command) {
         List<DecreaseInventoryQuantityRequest> requests = command.getProducts().stream().map(DecreaseInventoryQuantityRequest::from).toList();
         productProxy.decreaseInventoryQuantities(requests);
         try {
@@ -58,5 +61,10 @@ public class OrderService {
             }
 
         }
+    }
+
+    public OrderDetailDto getOrder(Long id) {
+        return orderRepository.findById(id).map(OrderDetailDto::from).orElseThrow(() -> new EntityNotFoundException("Order not found"));
+
     }
 }

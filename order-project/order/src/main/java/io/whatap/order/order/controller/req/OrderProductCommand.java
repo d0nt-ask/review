@@ -9,6 +9,9 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public class CreateOrderCommand {
+public class OrderProductCommand {
+    private String roadAddr; // 도로명주소 전체
+    private String jibunAddr; // 지번 주소
+    private String detailAddress;
     private List<CreateOrderProductCommand> products;
 }

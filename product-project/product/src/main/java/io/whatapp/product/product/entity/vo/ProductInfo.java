@@ -29,15 +29,6 @@ public class ProductInfo {
         currentQuantity = null;
     }
 
-    public static ProductInfo from(Product product, UpdateProductCommand command) {
-        return builder()
-                .name(command.getName())
-                .description(command.getDescription())
-                .price(command.getPrice())
-                .currentQuantity(product.getProductInfo().getCurrentQuantity())
-                .build();
-    }
-
     public ProductInfo syncQuantity(Long currentQuantity) {
         return builder()
                 .name(this.name)

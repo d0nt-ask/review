@@ -5,7 +5,8 @@ import io.whatapp.product.product.controller.req.CreateProductCommand;
 import io.whatapp.product.product.controller.req.CreateProductImageCommand;
 import io.whatapp.product.product.controller.req.UpdateProductCommand;
 import io.whatapp.product.product.controller.req.UpdateProductImageCommand;
-import io.whatapp.product.product.controller.res.ProductDto;
+import io.whatapp.product.product.controller.res.ProductDetailDto;
+import io.whatapp.product.product.controller.res.ProductSummaryDto;
 import io.whatapp.product.product.entity.Product;
 import io.whatapp.product.product.entity.ProductImage;
 import io.whatapp.product.product.entity.vo.ProductInfo;
@@ -39,17 +40,17 @@ public class ProductService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public ProductDto findById(Long id) {
-        return productRepository.findById(id).map(ProductDto::from).orElseThrow(() -> new EntityNotFoundException("Product not found"));
+    public ProductDetailDto findById(Long id) {
+        return productRepository.findById(id).map(ProductDetailDto::from).orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
-    public Slice<ProductDto> findByPageable(Long id, Pageable pageable) {
+    public Slice<ProductSummaryDto> findByPageable(Long id, Pageable pageable) {
         if (id == null) {
             Page<Product> products = productRepository.findAll(pageable);
-            return new PageImpl<>(ProductDto.fromProducts(products.getContent()), products.getPageable(), products.getTotalElements());
+            return new PageImpl<>(products.getContent().stream().map(ProductSummaryDto::from).toList(), products.getPageable(), products.getTotalElements());
         } else {
             Slice<Product> products = productRepository.findByIdGreaterThan(id, pageable);
-            return new SliceImpl<>(ProductDto.fromProducts(products.getContent()), products.getPageable(), products.hasNext());
+            return new SliceImpl<>(products.getContent().stream().map(ProductSummaryDto::from).toList(), products.getPageable(), products.hasNext());
         }
     }
 
@@ -113,7 +114,12 @@ public class ProductService {
 
     private void modifyProduct(Product product, UpdateProductCommand command) {
         if (command != null) {
-            ProductInfo productInfo = ProductInfo.from(product, command);
+            ProductInfo productInfo = ProductInfo.builder()
+                    .name(command.getName())
+                    .description(command.getDescription())
+                    .price(command.getPrice())
+                    .currentQuantity(product.getProductInfo().getCurrentQuantity())
+                    .build();
             product.modifyProduct(productInfo);
         }
     }

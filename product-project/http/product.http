@@ -1,19 +1,3 @@
-### GET request with a header
-GET http://localhost:8081/product
-Accept: application/json
-
-### Send POST request with json body
-GET http://localhost:8081/product/10000000
-Content-Type: application/json
-
-### Send POST request with json body
-GET http://localhost:8081/product?page=9&size=10
-Content-Type: application/json
-
-### Send POST request with json body
-GET http://localhost:8081/product?size=2&id=10000091
-Content-Type: application/json
-
 ### Send POST request with json body
 POST http://localhost:8081/product
 Content-Type: application/json
@@ -31,6 +15,22 @@ Content-Type: application/json
   "name": "나랑드사이다 제로, 500ml, 48개",
   "description": "원산지: 상품 상세설명 참조"
 }
+
+### GET request with a header
+GET http://localhost:8081/product
+Accept: application/json
+
+### Send POST request with json body
+GET http://localhost:8081/product/10000000
+Content-Type: application/json
+
+### Send POST request with json body
+GET http://localhost:8081/product?page=9&size=10
+Content-Type: application/json
+
+### Send POST request with json body
+GET http://localhost:8081/product?size=2&id=10000091
+Content-Type: application/json
 
 ### Send POST request with json body
 PUT http://localhost:8081/product/9999999

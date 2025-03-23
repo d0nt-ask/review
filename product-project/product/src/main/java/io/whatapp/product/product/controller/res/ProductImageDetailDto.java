@@ -8,14 +8,14 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class ProductImageDto {
+public class ProductImageDetailDto {
     private UUID id;
     private String fileName;
     private String thumbnailUrl;
     private String originUrl;
 
 
-    public static ProductImageDto from(ProductImage productImage) {
+    public static ProductImageDetailDto from(ProductImage productImage) {
         return builder()
                 .id(productImage.getId())
                 .fileName(productImage.getFileName())
