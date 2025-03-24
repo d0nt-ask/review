@@ -9,7 +9,7 @@ Content-Type: application/json
   "products": [
     {
       "productId": 9999999,
-      "quantity": 12
+      "quantity": 53123123
     },
     {
       "productId": 9999998,
@@ -47,7 +47,7 @@ Content-Type: application/json
 
 
 ### Send POST request with json body
-PUT http://localhost:8080/order/10000002
+PUT http://localhost:8080/order/50000002
 Content-Type: application/json
 
 {
@@ -68,7 +68,7 @@ Content-Type: application/json
 
 
 ### Send POST request with json body
-DELETE http://localhost:8080/order/20000000
+DELETE http://localhost:8080/order/20000001
 Content-Type: application/json
 
 {

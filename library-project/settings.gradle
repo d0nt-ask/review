@@ -1,0 +1,4 @@
+rootProject.name = 'library-project'
+include 'library-autoconfigure'
+include 'library-shared'
+

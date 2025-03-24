@@ -1,5 +1,6 @@
 package io.whatap.order.order.entity;
 
+import io.whatap.library.shared.entity.BaseEntity;
 import io.whatap.order.order.controller.req.OrderProductCommand;
 import io.whatap.order.order.entity.vo.Address;
 import io.whatap.order.order.entity.vo.OrderInfo;
@@ -11,12 +12,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 
 @Table(name = "`order`")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Order {
+public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

@@ -8,17 +8,17 @@
 - [x] API - deleteProduct
 ---
 ### Order
-- [ ] Order 기본 설계 - 보완 필요
-- [ ] API - getOrders - 진행중
+- [x] Order 기본 설계 
+- [x] API - getOrders
 - [x] API - getOrder
 - [x] API - orderProduct - 동시성 처리
-- [ ] API - changeOrder
-- [ ] API - deleteOrder
+- [x] API - changeOrder
+- [x] API - deleteOrder
 ---
 ### 공통
 - [ ] 입력 검증
 - [ ] 예외 처리
-- [ ] 설정 분리
+- [x] 설정 분리
 
 
 ## DB

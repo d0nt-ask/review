@@ -4,18 +4,22 @@ buildscript {
     }
 }
 
+
 plugins {
     id 'org.springframework.boot' version '2.7.0'
 }
 
 dependencies {
+    implementation project(':order-event')
+    implementation 'io.whatap:library-shared:0.0.1-SNAPSHOT'
+    implementation 'io.whatap:library-autoconfigure:0.0.1-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation("org.apache.httpcomponents:httpclient")
-    implementation project(':order-event')
-
+    implementation("org.apache.commons:commons-lang3")
     runtimeOnly 'mysql:mysql-connector-java'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

@@ -9,10 +9,12 @@ plugins{
 }
 
 dependencies {
+    implementation 'io.whatap:order-event:0.0.1-SNAPSHOT'
+    implementation 'io.whatap:library-shared:0.0.1-SNAPSHOT'
+    implementation 'io.whatap:library-autoconfigure:0.0.1-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'io.whatap:order-event:0.0.1-SNAPSHOT'
     runtimeOnly 'mysql:mysql-connector-java'
 //    runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

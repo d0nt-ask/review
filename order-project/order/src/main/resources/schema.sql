@@ -10,6 +10,10 @@ create table `order`
     road_addr               varchar(1000),
     jibun_addr              varchar(1000),
     detail_addr            varchar(1000),
+    created_date     TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null,
+    created_id       varchar(255),
+    modified_date    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP not null,
+    modified_id      varchar(255),
     primary key (id)
 ) engine=InnoDB;
 
@@ -25,6 +29,10 @@ create table order_product
     quantity         int,
     price            bigint,
     total_price      bigint,
+    created_date     TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null,
+    created_id       varchar(255),
+    modified_date    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP not null,
+    modified_id      varchar(255),
     primary key (id)
 ) engine=InnoDB;
 

@@ -1,5 +1,6 @@
 package io.whatapp.product.product.entity;
 
+import io.whatap.library.shared.entity.BaseEntity;
 import io.whatapp.product.product.controller.req.CreateProductImageCommand;
 import io.whatapp.product.product.controller.req.UpdateProductImageCommand;
 import io.whatapp.product.product.entity.vo.ImageInfo;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ProductImage extends RootEntity {
+public class ProductImage extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")

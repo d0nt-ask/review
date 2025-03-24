@@ -1,8 +1,11 @@
 package io.whatapp.product.inventory.entity;
 
+import io.whatap.library.shared.entity.BaseEntity;
 import io.whatapp.product.inventory.entity.vo.Quantity;
 import io.whatapp.product.product.entity.Product;
+
 import javax.persistence.*;
+
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -11,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Inventory {
+public class Inventory extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

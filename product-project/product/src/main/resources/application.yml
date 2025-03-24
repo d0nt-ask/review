@@ -7,25 +7,28 @@ spring:
     password: product
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-#    generate-ddl: true
-#    hibernate:
-#      ddl-auto: create
+    #    generate-ddl: true
+    #    hibernate:
+    #      ddl-auto: create
     show-sql: true
-#    defer-datasource-initialization: true
+  #    defer-datasource-initialization: true
   sql:
     init:
       mode: always
   kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       bootstrap-servers: localhost:9092
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: ${spring.application.name}
       properties:
-        spring:
-          json:
-            trusted:
-              packages: '*'
+        spring.json.trusted.packages: 'io.whatap.*'
       auto-offset-reset: earliest
+      enable-auto-commit: false
+      max-poll-records: 1
+      isolation-level: read_committed
 
 server:
   port: 8081

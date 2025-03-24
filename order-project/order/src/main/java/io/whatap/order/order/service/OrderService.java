@@ -4,8 +4,8 @@ import io.whatap.order.event.DeletedOrderEvent;
 import io.whatap.order.event.FailedOrderCreationEvent;
 import io.whatap.order.event.dto.OrderProductDto;
 import io.whatap.order.order.controller.req.ChangeOrderCommand;
-import io.whatap.order.order.controller.req.OrderProductCommand;
 import io.whatap.order.order.controller.req.CreateOrderProductCommand;
+import io.whatap.order.order.controller.req.OrderProductCommand;
 import io.whatap.order.order.controller.res.OrderDetailDto;
 import io.whatap.order.order.controller.res.OrderSummaryDto;
 import io.whatap.order.order.entity.Order;
@@ -18,10 +18,8 @@ import io.whatap.order.order.proxy.req.DecreaseInventoryQuantityRequest;
 import io.whatap.order.order.proxy.res.ProductDto;
 import io.whatap.order.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.*;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -35,12 +33,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 public class OrderService {
-    @Value("${spring.application.name:order}")
-    private String applicationName;
     private final OrderRepository orderRepository;
     private final ProductProxy productProxy;
     private final ApplicationEventPublisher eventPublisher;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public Long orderProduct(OrderProductCommand command) {
         List<DecreaseInventoryQuantityRequest> requests = command.getProducts().stream().map(DecreaseInventoryQuantityRequest::from).toList();

@@ -1,5 +1,6 @@
 package io.whatapp.product.product.entity;
 
+import io.whatap.library.shared.entity.BaseEntity;
 import io.whatapp.product.product.controller.req.CreateProductCommand;
 import io.whatapp.product.product.entity.vo.ProductInfo;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Product extends RootEntity {
+public class Product extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -45,8 +46,8 @@ public class Product extends RootEntity {
     }
 
     public void modifyProductImage(ProductImage productImage, int sequence) {
-        int i = this.productImages.indexOf(productImage);
-        if (i >= 0) {
+
+        if (this.productImages.contains(productImage)) {
             productImage.modifySequence(sequence);
         }
     }

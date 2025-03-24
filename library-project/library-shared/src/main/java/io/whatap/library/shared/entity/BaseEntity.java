@@ -1,22 +1,22 @@
-package io.whatapp.product.product.entity;
+package io.whatap.library.shared.entity;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.time.Instant;
 
 @MappedSuperclass
 @Setter
 @NoArgsConstructor
 @Getter
-public class RootEntity {
-    private String createdId;
+public class BaseEntity {
+    private String createdId = "anonymous";
     @Column(updatable = false, insertable = false)
     private Instant createdDate;
-    private String modifiedId;
+    private String modifiedId = "anonymous";
     @Column(updatable = false, insertable = false)
     private Instant modifiedDate;
 }

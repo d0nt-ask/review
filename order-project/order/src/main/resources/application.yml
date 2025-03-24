@@ -16,6 +16,11 @@ spring:
     producer:
       bootstrap-servers: localhost:9092
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+      retries: 2147483647
+
 server:
   port: 8080
 

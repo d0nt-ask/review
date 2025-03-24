@@ -1,5 +1,6 @@
 package io.whatap.order.order.entity;
 
+import io.whatap.library.shared.entity.BaseEntity;
 import io.whatap.order.order.controller.req.CreateOrderProductCommand;
 import io.whatap.order.order.entity.vo.OrderProductInfo;
 import io.whatap.order.order.proxy.res.ProductDto;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class OrderProduct {
+public class OrderProduct extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
