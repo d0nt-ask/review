@@ -29,6 +29,12 @@ public class OrderProduct extends BaseEntity {
 
     @Builder
     private OrderProduct(Long productId, String productName, OrderProductInfo orderProductInfo, Order order) {
+        if (productId == null) {
+            throw new IllegalArgumentException("상품은 필수 입력값 입니다.");
+        }
+        if (order == null) {
+            throw new IllegalArgumentException("주문이 올바르지 않습니다.");
+        }
         this.productId = productId;
         this.productName = productName;
         this.orderProductInfo = orderProductInfo;
@@ -36,6 +42,7 @@ public class OrderProduct extends BaseEntity {
     }
 
     public static OrderProduct fromCreateCommand(Order order, ProductDto productDto, CreateOrderProductCommand command) {
+
         return builder()
                 .order(order)
                 .productId(productDto.getId())
@@ -43,7 +50,6 @@ public class OrderProduct extends BaseEntity {
                 .orderProductInfo(OrderProductInfo.builder()
                         .price(productDto.getPrice())
                         .quantity(command.getQuantity())
-                        .totalPrice(productDto.getPrice() * command.getQuantity())
                         .build())
                 .build();
     }

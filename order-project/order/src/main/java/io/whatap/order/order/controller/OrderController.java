@@ -33,11 +33,13 @@ public class OrderController {
 
     @PostMapping
     public Long orderProduct(@RequestBody OrderProductCommand command) {
+        command.validate();
         return orderService.orderProduct(command);
     }
 
     @PutMapping("/{id}")
     public Long changeOrder(@PathVariable Long id, @RequestBody ChangeOrderCommand command) {
+        command.validate();
         return orderService.changeOrder(id, command);
     }
 

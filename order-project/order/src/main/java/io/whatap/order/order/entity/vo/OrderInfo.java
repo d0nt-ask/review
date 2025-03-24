@@ -13,26 +13,36 @@ import java.time.LocalDateTime;
 
 @Embeddable
 @Getter
-@Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderInfo {
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-    private long totalPrice;
-    private LocalDateTime orderCreatedDateTime;
-    private LocalDateTime orderedDateTime;
+    private final OrderStatus status;
+    private final Long totalPrice;
+    private final LocalDateTime orderCreatedDateTime;
+    private final LocalDateTime orderedDateTime;
 
     protected OrderInfo() {
         this.status = null;
-        this.totalPrice = 0;
-        this.orderCreatedDateTime = LocalDateTime.now();
+        this.totalPrice = null;
+        this.orderCreatedDateTime = null;
+        this.orderedDateTime = null;
+    }
+
+    @Builder
+    private OrderInfo(OrderStatus status, Long totalPrice, LocalDateTime orderCreatedDateTime, LocalDateTime orderedDateTime) {
+        this.status = status;
+        this.totalPrice = totalPrice;
+        this.orderCreatedDateTime = orderCreatedDateTime;
+        this.orderedDateTime = orderedDateTime;
     }
 
     public static OrderInfo init() {
-        return builder().status(OrderStatus.CREATED).totalPrice(0).orderCreatedDateTime(LocalDateTime.now()).build();
+        return builder().status(OrderStatus.DRAFT).orderCreatedDateTime(LocalDateTime.now()).build();
     }
 
-    public OrderInfo modifyTotalPrice(long totalPrice) {
+    public OrderInfo modifyTotalPrice(Long totalPrice) {
+        if (totalPrice == null) {
+            throw new IllegalArgumentException("결제 금액이 올바르지 않습니다.");
+        }
         return OrderInfo.builder()
                 .status(this.status)
                 .totalPrice(totalPrice)

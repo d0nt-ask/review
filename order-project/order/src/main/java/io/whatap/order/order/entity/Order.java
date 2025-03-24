@@ -1,7 +1,6 @@
 package io.whatap.order.order.entity;
 
 import io.whatap.library.shared.entity.BaseEntity;
-import io.whatap.order.order.controller.req.OrderProductCommand;
 import io.whatap.order.order.entity.vo.Address;
 import io.whatap.order.order.entity.vo.OrderInfo;
 import lombok.AccessLevel;
@@ -12,9 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 
 @Table(name = "`order`")
@@ -42,18 +38,16 @@ public class Order extends BaseEntity {
         this.address = address;
     }
 
-    public static Order from(OrderProductCommand command) {
+    public static Order initializeOrder() {
         return Order.builder()
                 .orderInfo(OrderInfo.init())
-                .address(Address.builder()
-                        .roadAddr(command.getRoadAddr())
-                        .jibunAddr(command.getJibunAddr())
-                        .detailAddr(command.getDetailAddr())
-                        .build())
                 .build();
     }
 
     public void addOrderProduct(OrderProduct orderProduct) {
+        if (orderProduct == null) {
+            throw new IllegalArgumentException("주문 상품은 필수 입력값 입니다.");
+        }
         this.orderProducts.add(orderProduct);
         this.orderInfo = orderInfo.modifyTotalPrice(this.orderProducts.stream().mapToLong(value -> value.getOrderProductInfo().getTotalPrice()).sum());
     }

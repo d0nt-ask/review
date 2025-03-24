@@ -10,16 +10,27 @@ import java.time.LocalDateTime;
 
 @Embeddable
 @Getter
-@Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderProductInfo {
-    private final long quantity;
-    private final long price;
-    private final long totalPrice;
+    private final Long quantity;
+    private final Long price;
+    private final Long totalPrice;
 
     protected OrderProductInfo() {
-        this.quantity = 0;
-        this.price = 0;
-        this.totalPrice = 0;
+        this.quantity = null;
+        this.price = null;
+        this.totalPrice = null;
+    }
+
+    @Builder
+    private OrderProductInfo(Long quantity, Long price) {
+        if (quantity == null) {
+            throw new IllegalArgumentException("수량은 필수 입력값입니다.");
+        }
+        if (price == null) {
+            throw new IllegalArgumentException("가격은 필수 입력값입니다.");
+        }
+        this.quantity = quantity;
+        this.price = price;
+        this.totalPrice = quantity * price;
     }
 }

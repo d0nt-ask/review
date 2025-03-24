@@ -42,7 +42,7 @@ public class OrderService {
         productProxy.decreaseInventoryQuantities(requests);
         boolean published = false;
         try {
-            Order order = Order.from(command);
+            Order order = Order.initializeOrder();
             addOrderProducts(order, command.getProducts());
             orderRepository.save(order);
             eventPublisher.publishEvent(CreatedOrderEvent.from(order));
@@ -65,21 +65,20 @@ public class OrderService {
                 OrderProduct orderProduct = OrderProduct.fromCreateCommand(order, productDto, command);
                 order.addOrderProduct(orderProduct);
             }
-
         }
     }
 
     public OrderDetailDto getOrder(Long id) {
-        return orderRepository.findById(id).map(OrderDetailDto::from).orElseThrow(() -> new EntityNotFoundException("Order not found"));
+        return orderRepository.findById(id).map(OrderDetailDto::from).orElseThrow(() -> new EntityNotFoundException("해당 주문이 존재하지 않습니다."));
 
     }
 
     public Slice<OrderSummaryDto> getOrders(Long id, Pageable pageable) {
         if (id == null) {
-            Page<Order> products = orderRepository.findByUserIdAndOrderInfoStatusNot("anonymous", OrderStatus.CREATED, pageable);
+            Page<Order> products = orderRepository.findByUserIdAndOrderInfoStatusNot("anonymous", OrderStatus.DRAFT, pageable);
             return new PageImpl<>(products.getContent().stream().map(OrderSummaryDto::from).toList(), products.getPageable(), products.getTotalElements());
         } else {
-            Slice<Order> products = orderRepository.findByIdGreaterThanAndUserIdAndOrderInfoStatusNot(id, "anonymous", OrderStatus.CREATED, pageable);
+            Slice<Order> products = orderRepository.findByIdGreaterThanAndUserIdAndOrderInfoStatusNot(id, "anonymous", OrderStatus.DRAFT, pageable);
             return new SliceImpl<>(products.getContent().stream().map(OrderSummaryDto::from).toList(), products.getPageable(), products.hasNext());
         }
     }
@@ -87,7 +86,7 @@ public class OrderService {
     public Long changeOrder(Long id, ChangeOrderCommand command) {
         Optional<Order> optionalOrder = orderRepository.findById(id);
         if (optionalOrder.isEmpty()) {
-            throw new EntityNotFoundException("Order not found");
+            throw new EntityNotFoundException("해당 주문이 존재하지 않습니다.");
 
         } else {
             Order order = optionalOrder.get();
@@ -106,7 +105,7 @@ public class OrderService {
     public Long deleteOrder(Long id) {
         Optional<Order> optionalOrder = orderRepository.findById(id);
         if (optionalOrder.isEmpty()) {
-            throw new EntityNotFoundException("Order not found");
+            throw new EntityNotFoundException("해당 주문이 존재하지 않습니다.");
 
         } else {
             Order order = optionalOrder.get();
