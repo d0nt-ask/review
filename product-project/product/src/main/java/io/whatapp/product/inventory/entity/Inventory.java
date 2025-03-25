@@ -29,6 +29,9 @@ public class Inventory extends BaseEntity {
     }
 
     public static Inventory from(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("상품은 필수 입력값입니다.");
+        }
         return Inventory.builder()
                 .productId(product.getId())
                 .quantity(
@@ -41,10 +44,16 @@ public class Inventory extends BaseEntity {
 
 
     public void decreaseQuantity(Long quantity) {
+        if (quantity == null) {
+            throw new IllegalArgumentException("수량은 필수 입력값입니다.");
+        }
         this.quantity = this.quantity.decreaseCurrentQuantity(quantity);
     }
 
     public void increaseQuantity(Long quantity) {
+        if (quantity == null) {
+            throw new IllegalArgumentException("수량은 필수 입력값입니다.");
+        }
         this.quantity = this.quantity.increaseCurrentQuantity(quantity);
     }
 }

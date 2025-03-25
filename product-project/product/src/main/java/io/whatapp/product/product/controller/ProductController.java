@@ -33,11 +33,13 @@ public class ProductController {
 
     @PostMapping
     public Long addProduct(@RequestBody CreateProductCommand command) {
+        command.validate();
         return productService.createProduct(command);
     }
 
     @PutMapping("/{id}")
     public Long updateProduct(@PathVariable Long id, @RequestBody UpdateProductCommand command) {
+        command.validate();
         return productService.updateProduct(id, command);
     }
 

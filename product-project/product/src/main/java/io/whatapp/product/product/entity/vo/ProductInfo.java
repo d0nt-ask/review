@@ -1,21 +1,13 @@
 package io.whatapp.product.product.entity.vo;
 
-import io.whatapp.product.product.controller.req.CreateProductCommand;
-import io.whatapp.product.product.controller.req.UpdateProductCommand;
-import io.whatapp.product.product.entity.Product;
-import io.whatapp.product.product.entity.ProductImage;
-
 import javax.persistence.Embeddable;
 
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
-//import javax.persistence.Column;
-//import javax.persistence.Embeddable;
 
 @Embeddable
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Builder
 public class ProductInfo {
     private final String name;
     private final String description;
@@ -29,7 +21,36 @@ public class ProductInfo {
         currentQuantity = null;
     }
 
+    @Builder
+    private ProductInfo(String name, String description, Long price, Long currentQuantity) {
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException("상품명은 필수 입력값입니다.");
+        }
+        if (price == null) {
+            throw new IllegalArgumentException("가격은 필수 입력값입니다.");
+        }
+        if (currentQuantity == null) {
+            throw new IllegalArgumentException("재고는 필수 입력값입니다.");
+        }
+        if (price < 0) {
+            throw new IllegalArgumentException("가격은 0 이상이여야 합니다");
+        }
+        if (currentQuantity < 0) {
+            throw new IllegalArgumentException("재고는 0 이상이여야 합니다");
+        }
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.currentQuantity = currentQuantity;
+    }
+
     public ProductInfo syncQuantity(Long currentQuantity) {
+        if (currentQuantity == null) {
+            throw new IllegalArgumentException("재고는 필수 입력값입니다.");
+        }
+        if (currentQuantity < 0) {
+            throw new IllegalArgumentException("재고는 0 이상이여야 합니다");
+        }
         return builder()
                 .name(this.name)
                 .description(this.description)

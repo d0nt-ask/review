@@ -11,9 +11,9 @@ public class OrderProductDetailDto {
     private Long id;
     private Long productId;
     private String productName;
-    private long quantity;
-    private long price;
-    private long totalPrice;
+    private Long quantity;
+    private Long price;
+    private Long totalPrice;
 
     public static OrderProductDetailDto from(OrderProduct orderProduct) {
         return builder()

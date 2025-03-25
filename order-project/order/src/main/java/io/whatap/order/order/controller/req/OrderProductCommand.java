@@ -14,6 +14,7 @@ import java.util.List;
 public class OrderProductCommand extends Command {
     private List<CreateOrderProductCommand> products;
 
+    @Override
     public void validate() {
         if (CollectionUtils.isEmpty(products)) {
             throw new IllegalArgumentException("상품목록은 필수 입력값입니다.");

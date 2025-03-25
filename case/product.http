@@ -1,0 +1,95 @@
+### 상품 등록
+POST http://localhost:8081/product
+Content-Type: application/json
+
+{
+  "name": "곰곰 클래식 체다치즈쿠키, 60g, 10개",
+  "description": "원산지: 상품 상세설명 참조",
+  "price": 12000,
+  "quantity": 2000,
+  "images": [
+    {
+      "fileId": "a5a172ed-db5c-40ac-80c4-09468583ba95",
+      "fileName": "2889758192112800-a5a172ed-db5c-40ac-80c4-09468583ba95.jpg",
+      "sequence": 0,
+      "thumbnailUrl": "https://thumbnail7.coupangcdn.com/thumbnails/remote/48x48ex/image/retail/images/2889758192112800-a5a172ed-db5c-40ac-80c4-09468583ba95.jpg",
+      "originUrl": "https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2889758192112800-a5a172ed-db5c-40ac-80c4-09468583ba95.jpg"
+    },
+    {
+      "fileId": "ec02eb47-f5cf-4bac-86c9-f3236ae94f18",
+      "fileName": "2865166818903059-ec02eb47-f5cf-4bac-86c9-f3236ae94f18.jpg",
+      "sequence": 1,
+      "thumbnailUrl": "https://thumbnail9.coupangcdn.com/thumbnails/remote/48x48ex/image/retail/images/2865166818903059-ec02eb47-f5cf-4bac-86c9-f3236ae94f18.jpg",
+      "originUrl": "https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2865166818903059-ec02eb47-f5cf-4bac-86c9-f3236ae94f18.jpg"
+    },
+    {
+      "fileId": "73165436-6016-4062-90fa-77eb879fc22e",
+      "fileName": "2865166997576125-73165436-6016-4062-90fa-77eb879fc22e.jpg",
+      "sequence": 2,
+      "thumbnailUrl": "https://thumbnail9.coupangcdn.com/thumbnails/remote/48x48ex/image/retail/images/2865166997576125-73165436-6016-4062-90fa-77eb879fc22e.jpg",
+      "originUrl": "https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2865166997576125-73165436-6016-4062-90fa-77eb879fc22e.jpg"
+    }
+  ]
+}
+
+> {%
+    client.test("Validate", function () {
+        client.assert(response.status === 200, "Response status: " + response.status);
+        client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json'");
+    });
+
+    client.log(response.body);
+    client.global.set("id", response.body)
+%}
+
+### 상품 단건 조회
+GET http://localhost:8081/product/{{id}}
+Content-Type: application/json
+
+> {%
+    client.test("Validate", function () {
+        client.assert(response.status === 200, "Response status: " + response.status);
+        client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json'");
+    });
+
+    client.log(response.body);
+    client.global.set("imageId1", response.body.images[1].id)
+    client.global.set("imageId2", response.body.images[2].id)
+%}
+
+### 상품 단건 조회
+GET http://localhost:8081/product/10001
+Content-Type: application/json
+
+### 상품 다건 조회 Offset
+GET http://localhost:8081/product?page=2&size=10
+Content-Type: application/json
+
+### 상품 다건 조회 Cursor
+GET http://localhost:8081/product?id=10000060&size=10
+Content-Type: application/json
+
+### 상품 수정
+PUT http://localhost:8081/product/{{id}}
+Content-Type: application/json
+
+{
+  "name": "곰곰 클래식 체다치즈쿠키, 60g, 12개",
+  "description": "원산지: 상품 상세설명 참조",
+  "price": 11000,
+  "createdProductImages": [
+    {
+      "fileId": "73165436-6016-4062-90fa-77eb879fc22e",
+      "sequence": 4
+    }
+  ],
+  "updatedProductImages": [
+    {
+      "productImageId": "{{imageId1}}",
+      "sequence": 100
+    }
+  ],
+  "deletedProductImages": [
+    "{{imageId2}}"
+  ]
+}

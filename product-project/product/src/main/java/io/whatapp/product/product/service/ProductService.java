@@ -37,11 +37,9 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ApplicationEventPublisher eventPublisher;
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public ProductDetailDto findById(Long id) {
-        return productRepository.findById(id).map(ProductDetailDto::from).orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        return productRepository.findById(id).map(ProductDetailDto::from).orElseThrow(() -> new EntityNotFoundException("상품 정보가 존재하지 않습니다."));
     }
 
     public Slice<ProductSummaryDto> findByPageable(Long id, Pageable pageable) {
@@ -65,7 +63,7 @@ public class ProductService {
     public Long updateProduct(Long id, UpdateProductCommand command) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isEmpty()) {
-            throw new EntityNotFoundException("Product not found");
+            throw new EntityNotFoundException("상품 정보가 존재하지 않습니다.");
         } else {
             Product product = optionalProduct.get();
             modifyProduct(product, command);
@@ -80,7 +78,7 @@ public class ProductService {
     public Long deleteProduct(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isEmpty()) {
-            throw new EntityNotFoundException("Product not found");
+            throw new EntityNotFoundException("상품 정보가 존재하지 않습니다.");
         } else {
             Product product = optionalProduct.get();
             product.remove();
@@ -93,13 +91,17 @@ public class ProductService {
 
     public void syncProductCurrentQuantity(Inventory inventory) {
         Optional<Product> productOptional = productRepository.findById(inventory.getProductId());
-        productOptional.ifPresent(product -> product.syncProductQuantity(inventory.getQuantity().getCurrentQuantity()));
+        productOptional
+                .orElseThrow(() -> new EntityNotFoundException("상품 정보가 존재하지 않습니다."))
+                .syncProductQuantity(inventory.getQuantity().getCurrentQuantity());
+
     }
 
 
     private void modifyProductImages(Product product, List<UpdateProductImageCommand> commands) {
-        Map<UUID, ProductImage> productImageMap = product.getProductImages().stream().collect(Collectors.toMap(ProductImage::getId, Function.identity()));
         if (!CollectionUtils.isEmpty(commands)) {
+            Map<UUID, ProductImage> productImageMap = product.getProductImages().stream().collect(Collectors.toMap(ProductImage::getId, Function.identity()));
+
             commands.forEach(command -> product.modifyProductImage(productImageMap.get(command.getProductImageId()), command.getSequence()));
         }
     }

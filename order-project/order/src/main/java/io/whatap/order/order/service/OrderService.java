@@ -86,7 +86,7 @@ public class OrderService {
     public Long changeOrder(Long id, ChangeOrderCommand command) {
         Optional<Order> optionalOrder = orderRepository.findById(id);
         if (optionalOrder.isEmpty()) {
-            throw new EntityNotFoundException("해당 주문이 존재하지 않습니다.");
+            throw new EntityNotFoundException("해당 주문 정보가 존재하지 않습니다.");
 
         } else {
             Order order = optionalOrder.get();
@@ -105,7 +105,7 @@ public class OrderService {
     public Long deleteOrder(Long id) {
         Optional<Order> optionalOrder = orderRepository.findById(id);
         if (optionalOrder.isEmpty()) {
-            throw new EntityNotFoundException("해당 주문이 존재하지 않습니다.");
+            throw new EntityNotFoundException("해당 주문 정보가 존재하지 않습니다.");
 
         } else {
             Order order = optionalOrder.get();

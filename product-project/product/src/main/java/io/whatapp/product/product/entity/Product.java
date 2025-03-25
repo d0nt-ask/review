@@ -23,15 +23,22 @@ public class Product extends BaseEntity {
     private ProductInfo productInfo;
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OrderBy("sequence ASC")
     private final List<ProductImage> productImages = new ArrayList<>();
 
     @Builder
     private Product(ProductInfo productInfo) {
+        if (productInfo == null) {
+            throw new IllegalArgumentException("상품 정보는 필수 입력값입니다.");
+        }
         this.productInfo = productInfo;
     }
 
 
     public void addProductImage(ProductImage productImage) {
+        if (productInfo == null) {
+            throw new IllegalArgumentException("상품 사진은 필수 입력값입니다.");
+        }
         this.productImages.add(productImage);
     }
 
@@ -42,18 +49,24 @@ public class Product extends BaseEntity {
     }
 
     public void modifyProduct(ProductInfo productInfo) {
+        if (productInfo == null) {
+            throw new IllegalArgumentException("상품 정보는 필수 입력값입니다.");
+        }
         this.productInfo = productInfo;
     }
 
     public void modifyProductImage(ProductImage productImage, int sequence) {
-
         if (this.productImages.contains(productImage)) {
             productImage.modifySequence(sequence);
+        } else {
+            throw new EntityNotFoundException("상품 사진 정보가 존재하지 않습니다.");
         }
     }
 
     public void removeProductImage(ProductImage productImage) {
-        this.productImages.remove(productImage);
+        if (!this.productImages.remove(productImage)) {
+            throw new EntityNotFoundException("상품 사진 정보가 존재하지 않습니다.");
+        }
     }
 
     public void remove() {

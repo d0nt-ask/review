@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class DecreaseInventoryQuantityRequest {
     private Long productId;
-    private long quantity;
+    private Long quantity;
 
     public static DecreaseInventoryQuantityRequest from(CreateOrderProductCommand command){
         return DecreaseInventoryQuantityRequest.builder()

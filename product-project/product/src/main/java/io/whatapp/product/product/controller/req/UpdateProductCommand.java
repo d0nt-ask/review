@@ -1,5 +1,6 @@
 package io.whatapp.product.product.controller.req;
 
+import io.whatap.library.shared.web.Command;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
-public class UpdateProductCommand {
+public class UpdateProductCommand extends Command {
     private String name;
     private String description;
     private Long price;

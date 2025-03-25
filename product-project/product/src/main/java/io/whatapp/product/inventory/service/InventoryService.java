@@ -51,7 +51,7 @@ public class InventoryService {
 
     private Long decreaseInventoryQuantity(DecreaseInventoryCommand command) {
         Optional<Inventory> inventoryOptional = inventoryRepository.findWithLockByProductId(command.getProductId());
-        Inventory inventory = inventoryOptional.orElseThrow(() -> new EntityNotFoundException("Inventory not found"));
+        Inventory inventory = inventoryOptional.orElseThrow(() -> new EntityNotFoundException("해당 재고 정보가 존재하지 않습니다."));
         inventory.decreaseQuantity(command.getQuantity());
         inventoryRepository.save(inventory);
         eventPublisher.publishEvent(DecreasedInventoryQuantityEvent.from(inventory));
@@ -60,7 +60,7 @@ public class InventoryService {
 
     private void increaseInventoryQuantity(OrderProductDto orderProduct) {
         Optional<Inventory> inventoryOptional = inventoryRepository.findWithLockByProductId(orderProduct.getProductId());
-        Inventory inventory = inventoryOptional.orElseThrow(() -> new EntityNotFoundException("Inventory not found"));
+        Inventory inventory = inventoryOptional.orElseThrow(() -> new EntityNotFoundException("해당 재고 정보가 존재하지 않습니다."));
         inventory.increaseQuantity(orderProduct.getQuantity());
         inventoryRepository.save(inventory);
         eventPublisher.publishEvent(DecreasedInventoryQuantityEvent.from(inventory));
