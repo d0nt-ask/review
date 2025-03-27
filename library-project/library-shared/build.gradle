@@ -2,6 +2,13 @@ dependencies {
     compileOnly 'org.springframework.data:spring-data-jpa'
     compileOnly 'javax.persistence:javax.persistence-api'
     compileOnly 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.springframework:spring-aspects'
+    compileOnly("org.redisson:redisson-spring-boot-starter:3.45.1") {
+        exclude group: 'org.redisson', module: 'redisson-spring-data-34'
+    }
+    compileOnly "org.redisson:redisson-spring-data-27:3.45.1"
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
+    compileOnly("org.apache.commons:commons-pool2")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'

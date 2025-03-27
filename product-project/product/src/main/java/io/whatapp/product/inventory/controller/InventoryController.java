@@ -21,4 +21,11 @@ public class InventoryController {
         return inventoryService.decreaseInventoryQuantities(commands);
     }
 
+
+    @PostMapping("/decrease/v2")
+    public List<Long> decreaseInventoryQuantitiesV2(@RequestBody List<DecreaseInventoryCommand> commands) {
+        commands.forEach(Command::validate);
+        return inventoryService.decreaseInventoryQuantitiesV2(commands);
+    }
+
 }

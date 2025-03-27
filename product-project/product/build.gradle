@@ -4,7 +4,7 @@ buildscript {
     }
 }
 
-plugins{
+plugins {
     id 'org.springframework.boot' version '2.7.0'
 }
 
@@ -16,6 +16,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation("org.apache.commons:commons-lang3")
+    implementation("io.netty:netty-transport-native-unix-common")
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64' // Netty 모듈 추가
     runtimeOnly 'mysql:mysql-connector-java'
 //    runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -24,3 +26,4 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
+

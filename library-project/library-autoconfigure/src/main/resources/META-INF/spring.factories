@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 io.whatap.library.autoconfigure.web.WebAutoConfiguration,\
-io.whatap.library.autoconfigure.kafka.KafkaConsumerAutoConfiguration
+io.whatap.library.autoconfigure.kafka.KafkaConsumerAutoConfiguration,\
+io.whatap.library.autoconfigure.lock.LockAutoConfiguration

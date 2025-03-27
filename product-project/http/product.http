@@ -64,3 +64,19 @@ Content-Type: application/json
 DELETE http://localhost:8081/product/10000100
 Content-Type: application/json
 
+
+###
+POST http://localhost:8081/inventory/decrease/v2
+Content-Type: application/json
+
+[
+  {
+    "productId": 10000,
+    "quantity": 1
+  },
+  {
+    "productId": 10001,
+    "quantity": 2
+  }
+]
+

@@ -9,6 +9,12 @@ dependencies {
     implementation("org.apache.httpcomponents:httpclient")
     implementation 'javax.persistence:javax.persistence-api'
     implementation project(':library-shared')
+    implementation("org.redisson:redisson-spring-boot-starter:3.45.1") {
+        exclude group: 'org.redisson', module: 'redisson-spring-data-34'
+    }
+    implementation "org.redisson:redisson-spring-data-27:3.45.1"
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation("org.apache.commons:commons-pool2")
 
 //    runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
