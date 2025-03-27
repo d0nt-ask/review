@@ -22,7 +22,7 @@ create table product_image
     product_id    bigint,
     file_id       binary(16),
     file_name     varchar(1000),
-    sequence      longint,
+    sequence      bigint,
     origin_url    varchar(1000),
     thumbnail_url varchar(1000),
     created_date  TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null,
