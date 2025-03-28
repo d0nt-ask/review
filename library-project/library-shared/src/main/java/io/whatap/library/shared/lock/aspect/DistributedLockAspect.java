@@ -1,8 +1,8 @@
 package io.whatap.library.shared.lock.aspect;
 
-import io.whatap.library.shared.lock.excecutor.TransactionExecutor;
 import io.whatap.library.shared.lock.annotation.DistributedLock;
 import io.whatap.library.shared.lock.annotation.DistributedLocks;
+import io.whatap.library.shared.lock.excecutor.TransactionExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -50,8 +50,11 @@ public class DistributedLockAspect {
         Object value = parser.parseExpression(distributedLock.key()).getValue(context);
         RLock lock = redissonClient.getFairLock(distributedLock.lockName() + ":" + value.toString());
         try {
-            lock.tryLock(distributedLock.leaseTime(), distributedLock.waitTime(), TimeUnit.SECONDS);
-            return transactionExecutor.runInTransaction(pjp);
+            if (lock.tryLock(distributedLock.leaseTime(), distributedLock.waitTime(), TimeUnit.SECONDS)) {
+                return transactionExecutor.runInTransaction(pjp);
+            } else {
+                throw new RuntimeException("잠시후 시도해 주세요.");
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
@@ -63,7 +66,6 @@ public class DistributedLockAspect {
 
     @Around("distributedLocks()")
     public Object aroundDistributedLocks(ProceedingJoinPoint pjp) {
-        log.info("락 로직 시작");
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         String[] parameterNames = methodSignature.getParameterNames();
 
@@ -84,20 +86,18 @@ public class DistributedLockAspect {
         RLock multiLock = redissonClient.getMultiLock(rLocks);
 
         try {
-            multiLock.tryLock(distributedLocks.leaseTime(), distributedLocks.waitTime(), TimeUnit.SECONDS);
-            log.info("락 획득");
 
-            Object o = transactionExecutor.runInTransaction(pjp);
-            log.info("로직 끝");
-            return o;
+            if (multiLock.tryLock(distributedLocks.leaseTime(), distributedLocks.waitTime(), TimeUnit.SECONDS)) {
+                return transactionExecutor.runInTransaction(pjp);
+            } else {
+                throw new RuntimeException("잠시후 시도해 주세요.");
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
             if (multiLock.isHeldByCurrentThread()) {
                 multiLock.unlock();
-                log.info("락 반납 끝");
             }
         }
     }
-
 }
