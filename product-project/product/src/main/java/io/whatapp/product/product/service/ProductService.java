@@ -13,9 +13,6 @@ import io.whatapp.product.product.entity.vo.ProductInfo;
 import io.whatapp.product.product.event.CreatedProductEvent;
 import io.whatapp.product.product.event.DeletedProductEvent;
 import io.whatapp.product.product.repository.ProductRepository;
-
-import javax.persistence.*;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.*;
@@ -23,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,6 +53,7 @@ public class ProductService {
         Product product = Product.from(command);
         addProductImages(product, command.getImages());
 
+        productRepository.save(product);
         eventPublisher.publishEvent(CreatedProductEvent.from(product));
         return product.getId();
     }

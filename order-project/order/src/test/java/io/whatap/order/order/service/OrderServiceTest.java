@@ -95,7 +95,7 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("예외: 단건 조회")
+    @DisplayName("예외: 미존재 조회")
     void getOrderException() {
         assertThrows(EntityNotFoundException.class, () -> orderService.getOrder(Long.MAX_VALUE));
 
