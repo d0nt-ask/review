@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class DeletedOrderEvent {
-
+    private Long orderId;
     private List<OrderProductDto> orderProducts;
 
 }

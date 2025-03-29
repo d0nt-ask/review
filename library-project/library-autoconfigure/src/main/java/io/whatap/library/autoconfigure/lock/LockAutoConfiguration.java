@@ -1,6 +1,7 @@
 package io.whatap.library.autoconfigure.lock;
 
 import io.whatap.library.shared.lock.aspect.DistributedLockAspect;
+import io.whatap.library.shared.lock.aspect.ScheduleLockAspect;
 import io.whatap.library.shared.lock.excecutor.TransactionExecutor;
 import org.redisson.api.RedissonClient;
 import org.redisson.spring.starter.RedissonAutoConfigurationV2;
@@ -19,5 +20,10 @@ public class LockAutoConfiguration {
     @Bean
     public DistributedLockAspect distributedLockAspect(TransactionExecutor transactionExecutor, RedissonClient redissonClient) {
         return new DistributedLockAspect(transactionExecutor, redissonClient);
+    }
+
+    @Bean
+    public ScheduleLockAspect scheduleLockAspect(RedissonClient redissonClient) {
+        return new ScheduleLockAspect(redissonClient);
     }
 }

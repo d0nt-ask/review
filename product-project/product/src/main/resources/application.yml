@@ -6,11 +6,11 @@ spring:
     username: product
     password: product
     driver-class-name: com.mysql.cj.jdbc.Driver
-#  jpa:
+    #  jpa:
     #    generate-ddl: true
     #    hibernate:
     #      ddl-auto: create
-#    show-sql: true
+  #    show-sql: true
   #    defer-datasource-initialization: true
   sql:
     init:
@@ -35,6 +35,9 @@ spring:
     lettuce:
       pool:
         enabled: true
+        max-active: 20
+        max-idle: 20
+        min-idle: 20
     client-type: lettuce
 server:
   port: 8081
@@ -42,7 +45,11 @@ server:
 logging:
   level:
     root: info
-    com.zaxxer.hikari: trace
+    com:
+      zaxxer:
+        hikari:
+          pool:
+            HikariPool: trace
     org.springframework.transaction: trace
 #    org.hibernate.orm.jdbc.bind: trace
 #    org:

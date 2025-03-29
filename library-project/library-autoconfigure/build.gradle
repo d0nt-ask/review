@@ -15,6 +15,8 @@ dependencies {
     implementation "org.redisson:redisson-spring-data-27:3.45.1"
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation("org.apache.commons:commons-pool2")
+    implementation("io.netty:netty-transport-native-unix-common")
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64'
 
 //    runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

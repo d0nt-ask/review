@@ -1,5 +1,6 @@
 package io.whatapp.product.inventory.service;
 
+import com.zaxxer.hikari.HikariDataSource;
 import io.whatap.library.shared.lock.annotation.DistributedLocks;
 import io.whatap.order.event.dto.OrderProductDto;
 import io.whatapp.product.inventory.controller.req.DecreaseInventoryCommand;
@@ -8,6 +9,8 @@ import io.whatapp.product.inventory.event.DecreasedInventoryQuantityEvent;
 import io.whatapp.product.inventory.repository.InventoryRepository;
 import io.whatapp.product.product.entity.Product;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +22,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class InventoryService {
     private final InventoryRepository inventoryRepository;
     private final ApplicationEventPublisher eventPublisher;
+    @Autowired
+    private HikariDataSource dataSource;
 
 
     @Transactional
@@ -47,8 +53,17 @@ public class InventoryService {
         return ids;
     }
 
-    @DistributedLocks(lockName = "decreaseInventoryQuantitiesV2", keys = "#commands.![productId]")
+    @Transactional
+    @DistributedLocks(lockName = "inventory", keys = "#commands.![productId]")
     public List<Long> decreaseInventoryQuantitiesV2(List<DecreaseInventoryCommand> commands) {
+        StringBuilder status = new StringBuilder();
+        status.append("Pool Name: ").append(dataSource.getPoolName()).append("\n");
+        status.append("Active Connections: ").append(dataSource.getHikariPoolMXBean().getActiveConnections()).append("\n");
+        status.append("Idle Connections: ").append(dataSource.getHikariPoolMXBean().getIdleConnections()).append("\n");
+        status.append("Total Connections: ").append(dataSource.getHikariPoolMXBean().getTotalConnections()).append("\n");
+        status.append("Threads Awaiting Connection: ").append(dataSource.getHikariPoolMXBean().getThreadsAwaitingConnection()).append("\n");
+        log.info(status.toString());
+
         List<Long> ids = new ArrayList<>();
 
         for (DecreaseInventoryCommand command : commands) {
@@ -58,6 +73,7 @@ public class InventoryService {
     }
 
     @Transactional
+    @DistributedLocks(lockName = "inventory", keys = "#orderProducts.![productId]")
     public void increaseInventoryQuantities(List<OrderProductDto> orderProducts) {
         for (OrderProductDto orderProduct : orderProducts) {
             increaseInventoryQuantity(orderProduct);

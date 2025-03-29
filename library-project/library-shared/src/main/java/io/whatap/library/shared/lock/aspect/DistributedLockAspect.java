@@ -12,6 +12,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
@@ -21,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 @RequiredArgsConstructor
 @Slf4j
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class DistributedLockAspect {
 
     private final TransactionExecutor transactionExecutor;
@@ -50,7 +53,7 @@ public class DistributedLockAspect {
         Object value = parser.parseExpression(distributedLock.key()).getValue(context);
         RLock lock = redissonClient.getFairLock(distributedLock.lockName() + ":" + value.toString());
         try {
-            if (lock.tryLock(distributedLock.leaseTime(), distributedLock.waitTime(), TimeUnit.SECONDS)) {
+            if (lock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), TimeUnit.SECONDS)) {
                 return transactionExecutor.runInTransaction(pjp);
             } else {
                 throw new RuntimeException("잠시후 시도해 주세요.");
@@ -87,7 +90,7 @@ public class DistributedLockAspect {
 
         try {
 
-            if (multiLock.tryLock(distributedLocks.leaseTime(), distributedLocks.waitTime(), TimeUnit.SECONDS)) {
+            if (multiLock.tryLock(distributedLocks.waitTime(), distributedLocks.leaseTime(), TimeUnit.SECONDS)) {
                 return transactionExecutor.runInTransaction(pjp);
             } else {
                 throw new RuntimeException("잠시후 시도해 주세요.");

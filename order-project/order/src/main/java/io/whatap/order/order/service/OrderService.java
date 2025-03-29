@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -109,11 +110,24 @@ public class OrderService {
 
         } else {
             Order order = optionalOrder.get();
-            List<OrderProduct> deleteOrderProucts = new ArrayList<>(order.getOrderProducts());
-            order.remove();
-            orderRepository.delete(order);
-            eventPublisher.publishEvent(DeletedOrderEvent.builder().orderProducts(deleteOrderProucts.stream().map(orderProduct -> new OrderProductDto(orderProduct.getProductId(), orderProduct.getOrderProductInfo().getQuantity())).toList()).build());
-            return order.getId();
+
+            return deleteOrder(order);
         }
     }
+
+    @Transactional
+    public void deleteExpiredDraftedOrders(LocalDateTime now) {
+        List<Order> orders = orderRepository.findByOrderInfoOrderCreatedDateTimeLessThanAndOrderInfoStatus(now.minusMinutes(10), OrderStatus.DRAFT);
+        orders.forEach(this::deleteOrder);
+    }
+
+    private Long deleteOrder(Order order) {
+        List<OrderProduct> deleteOrderProucts = new ArrayList<>(order.getOrderProducts());
+        order.remove();
+        orderRepository.delete(order);
+        eventPublisher.publishEvent(DeletedOrderEvent.builder().orderId(order.getId()).orderProducts(deleteOrderProucts.stream().map(orderProduct -> new OrderProductDto(orderProduct.getProductId(), orderProduct.getOrderProductInfo().getQuantity())).toList()).build());
+        return order.getId();
+    }
+
+
 }

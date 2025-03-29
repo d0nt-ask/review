@@ -20,7 +20,16 @@ spring:
       properties:
         enable.idempotence: true
       retries: 2147483647
-
+  redis:
+    cluster:
+      nodes: localhost:7001,localhost:7002,localhost:7003,localhost:7004,localhost:7005,localhost:7006
+    lettuce:
+      pool:
+        enabled: true
+        max-active: 20
+        max-idle: 20
+        min-idle: 20
+    client-type: lettuce
 server:
   port: 8080
 
